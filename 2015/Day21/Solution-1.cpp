@@ -115,7 +115,7 @@ void brute_helper(
     size_t curr_price,
     size_t &min_price
 ) {
-    if (curr_price > min_price) {
+    if (curr_price >= min_price) {
         return;
     }
     if (enemy <= player) {
