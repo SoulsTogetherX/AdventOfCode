@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
-
 
 
 const string FILE_NAME = "input.txt";
@@ -27,17 +27,15 @@ ifstream open_file(string filename) {
 }
 
 size_t process_line(string textline) {
-    int sum = 0;
-    int size = textline.length();
-    int half = size / 2;
+    stringstream ss(textline);
+    size_t max_val = 0, min_val = -1, temp;
 
-    for(int i = 0; i < size; i++) {
-        if (textline[i] == textline[(i + half) % size]) {
-            sum += textline[i] - '0';
-        }
+    while(ss >> temp) {
+        max_val = max(max_val, temp);
+        min_val = min(min_val, temp);
     }
 
-    return sum;
+    return max_val - min_val;
 }
 
 size_t process_file() {
@@ -45,12 +43,17 @@ size_t process_file() {
     ifstream inputStream;
     inputStream = open_file(FILE_NAME);
 
-    getline(inputStream, textline);
-    return process_line(textline);
+    size_t sum = 0;
+
+    while(getline(inputStream, textline)) {
+        sum += process_line(textline);
+    }
+
+    return sum;
 }
 
 
 int main() {
     auto output = process_file();
-    cout << "The captcha's solution is " << output << endl;
+    cout << "The checksum is " << output << endl;
 }
