@@ -12,6 +12,10 @@ class Point2D{
         Point2D() : x(0), y(0) {};
         Point2D(long x, long y) : x(x), y(y) {};
 
+        string to_string() {
+            return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+        }
+
         Point2D abs() {
             x = std::abs(x);
             y = std::abs(y);
