@@ -29,8 +29,8 @@ class Point2D{
         Point2D<T> apply_rotation(const double&);
         Point2D<T> rotate(const double&);
 
-        Point2D<T> clockwise_90();
-        Point2D<T> counterclockwise_90();
+        Point2D<T> rotate_clockwise_90();
+        Point2D<T> rotate_counterclockwise_90();
         Point2D<T> rotate_180();
 
         Point2D<T> clamp(const Point2D<T>&, const Point2D<T>&) const;

@@ -72,14 +72,14 @@ Point2D<T> Point2D<T>::rotate(const double& angle) {
 
 
 template <typename T>
-Point2D<T> Point2D<T>::clockwise_90() {
+Point2D<T> Point2D<T>::rotate_clockwise_90() {
 return Point2D<T>(
         -y,
         x
     );
 }
 template <typename T>
-Point2D<T> Point2D<T>::counterclockwise_90() {
+Point2D<T> Point2D<T>::rotate_counterclockwise_90() {
     return Point2D<T>(
         y,
         -x
