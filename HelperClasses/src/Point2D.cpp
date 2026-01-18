@@ -12,7 +12,7 @@ Point2D<T>::Point2D(const T& x_coord, const T& y_coord) : x(x_coord), y(y_coord)
 
 template <typename T>
 void Point2D<T>::assign_coordinates(const T& x_coord, const T& y_coord) {
-    x = x;
+    x = x_coord;
     y = y_coord;
 };
 
@@ -24,15 +24,15 @@ std::string Point2D<T>::to_string() const {
 
 template <typename T>
 Point2D<T> Point2D<T>::abs() const {
-    return Point2D<T>(x >= 0 ? x : -x) + (y >= 0 ? y : -y);
+    return Point2D<T>(x >= 0 ? x : -x, y >= 0 ? y : -y);
+}
+template <typename T>
+T Point2D<T>::scalar(const Point2D<T>& p) const {
+    return x * p.y - y * p.x;
 }
 template <typename T>
 T Point2D<T>::dot(const Point2D<T>& p) const {
     return x * p.x + y * p.y;
-}
-template <typename T>
-T Point2D<T>::cross_product(const Point2D<T>& p) const {
-    return x * p.y - y * p.x;
 }
 
 template <typename T>
@@ -109,28 +109,28 @@ Point2D<T> Point2D<T>::clamp_val(const T& min_val, const T& max_val) const {
     );
 }
 template <typename T>
-Point2D<T> Point2D<T>::min(const Point2D<T>& pt) {
+Point2D<T> Point2D<T>::min(const Point2D<T>& pt) const {
     return Point2D<T>(
         x > pt.x ? pt.x : x,
         y > pt.y ? pt.y : y
     );
 }
 template <typename T>
-Point2D<T> Point2D<T>::min_val(const T& val) {
+Point2D<T> Point2D<T>::min_val(const T& val) const {
     return Point2D<T>(
         x > val ? val : x,
         y > val ? val : y
     );
 }
 template <typename T>
-Point2D<T> Point2D<T>::max(const Point2D<T>& pt) {
+Point2D<T> Point2D<T>::max(const Point2D<T>& pt) const {
     return Point2D<T>(
         x < pt.x ? pt.x : x,
         y < pt.y ? pt.y : y
     );
 }
 template <typename T>
-Point2D<T> Point2D<T>::max_val(const T& val) {
+Point2D<T> Point2D<T>::max_val(const T& val) const {
     return Point2D<T>(
         x < val ? val : x,
         y < val ? val : y
@@ -138,19 +138,19 @@ Point2D<T> Point2D<T>::max_val(const T& val) {
 }
 
 template <typename T>
-bool Point2D<T>::axis_less(const Point2D<T>& pt) {
+bool Point2D<T>::has_infimum(const Point2D<T>& pt) const {
     return x < pt.x || y < pt.y;
 }
 template <typename T>
-bool Point2D<T>::axis_less_equal(const Point2D<T>& pt) {
+bool Point2D<T>::has_lower_bound(const Point2D<T>& pt) const {
     return x <= pt.x || y <= pt.y;
 }
 template <typename T>
-bool Point2D<T>::axis_greater(const Point2D<T>& pt) {
+bool Point2D<T>::has_supremum(const Point2D<T>& pt) const {
     return x > pt.x || y > pt.y;
 }
 template <typename T>
-bool Point2D<T>::axis_greater_equal(const Point2D<T>& pt) {
+bool Point2D<T>::has_upper_bound(const Point2D<T>& pt) const {
     return x >= pt.x || y >= pt.y;
 }
 
@@ -223,17 +223,16 @@ bool Point2D<T>::operator < (const Point2D<T>& p) const {
 }
 template <typename T>
 bool Point2D<T>::operator <= (const Point2D<T>& p) const {
-    return x < p.x || (x == p.x && y <= p.y);
+    return x <= p.x && (x != p.x || y <= p.y);
 }
-
 
 template <typename T>
 bool Point2D<T>::operator > (const Point2D<T>& p) const {
-    return x >= p.x && (x != p.x || y > p.y);
+    return x > p.x || (x == p.x && y > p.y);
 }
 template <typename T>
 bool Point2D<T>::operator >= (const Point2D<T>& p) const {
-    return x >= p.x || (x != p.x || y >= p.y);
+    return x >= p.x && (x != p.x || y >= p.y);
 }
 
 

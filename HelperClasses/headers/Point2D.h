@@ -18,14 +18,15 @@ class Point2D{
         std::string to_string() const;
 
         Point2D<T> abs() const;
+        T scalar(const Point2D<T>&) const;
         T dot(const Point2D<T>&) const;
-        T cross_product(const Point2D<T>&) const;
 
         T manhattan_distance() const;
         T distance_squared() const;
         double distance() const;
 
         double get_angle() const;
+        double get_angle_to(const Point2D<T>&) const;
         Point2D<T> apply_rotation(const double&);
         Point2D<T> rotate(const double&);
 
@@ -35,15 +36,15 @@ class Point2D{
 
         Point2D<T> clamp(const Point2D<T>&, const Point2D<T>&) const;
         Point2D<T> clamp_val(const T&, const T&) const;
-        Point2D<T> min(const Point2D<T>&);
-        Point2D<T> min_val(const T&);
-        Point2D<T> max(const Point2D<T>&);
-        Point2D<T> max_val(const T&);
+        Point2D<T> min(const Point2D<T>&) const;
+        Point2D<T> min_val(const T&) const;
+        Point2D<T> max(const Point2D<T>&) const;
+        Point2D<T> max_val(const T&) const;
 
-        bool axis_less(const Point2D<T>&);
-        bool axis_less_equal(const Point2D<T>&);
-        bool axis_greater(const Point2D<T>&);
-        bool axis_greater_equal(const Point2D<T>&);
+        bool has_infimum(const Point2D<T>&) const;
+        bool has_lower_bound(const Point2D<T>&) const;
+        bool has_supremum(const Point2D<T>&) const;
+        bool has_upper_bound(const Point2D<T>&) const;
 
         Point2D<T> operator * (const T&) const;
         Point2D<T> operator *= (const T&);
@@ -51,11 +52,11 @@ class Point2D{
         Point2D<T> operator / (const T&) const;
         Point2D<T> operator /= (const T&);
 
-        Point2D<T> operator + (const Point2D&) const;
-        Point2D<T> operator += (const Point2D&);
+        Point2D<T> operator + (const Point2D<T>&) const;
+        Point2D<T> operator += (const Point2D<T>&);
 
-        Point2D<T> operator - (const Point2D&) const;
-        Point2D<T> operator -= (const Point2D&);
+        Point2D<T> operator - (const Point2D<T>&) const;
+        Point2D<T> operator -= (const Point2D<T>&);
 
         bool operator == (const Point2D<T>&) const;
         bool operator != (const Point2D<T>&) const;
