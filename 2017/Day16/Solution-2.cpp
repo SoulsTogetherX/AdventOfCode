@@ -60,15 +60,7 @@ void process_line(const string &textline, string &programs) {
             case 'p':
                 ss >> temp_c1 >> temp_c2 >> temp_c2;
             
-                for(int i = 0; i < programs.size(); i++) {
-                    if (programs[i] == temp_c1) {
-                        temp_i1 = i;
-                    } else if (programs[i] == temp_c2) {
-                        temp_i2 = i;
-                    }
-                }
-
-                swap(programs[temp_i1], programs[temp_i2]);
+                iter_swap(find(begin(programs), end(programs), temp_c1), find(begin(programs), end(programs), temp_c2));
                 ss >> temp_c1;
             break;
         }
