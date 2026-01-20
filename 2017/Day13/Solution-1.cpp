@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -26,22 +26,33 @@ ifstream open_file(string filename) {
     return inputStream;
 }
 
+int process_line(const string &textline) {
+    stringstream ss(textline);
+    int depth, range;
+    char chars; 
+    
+    ss >> depth >> chars >> range;
+
+    if (depth % ((range - 1) << 1) == 0) {
+        return depth * range;
+    }
+    return 0;
+}
 
 size_t process_file() {
     string textline;
     ifstream inputStream;
     inputStream = open_file(FILE_NAME);
 
-    size_t sum = 0;
-
+    size_t total_severity = 0;
     while(getline(inputStream, textline)) {
+       total_severity += process_line(textline);
     }
-
-    return sum;
+    return total_severity;
 }
 
 
 int main() {
     auto output = process_file();
-    cout << "The number of times 'XMAS' appears is " << output << endl;
+    cout << "The total severity is " << output << endl;
 }
