@@ -113,19 +113,19 @@ Point3D<T> Point3D<T>::max_val(const T& val) const {
 
 template <typename T>
 bool Point3D<T>::has_infimum(const Point3D<T>& pt) const {
-    return x < pt.x || y < pt.y || z < pt.z;
+    return x > pt.x && y > pt.y && z > pt.z;
 }
 template <typename T>
 bool Point3D<T>::has_lower_bound(const Point3D<T>& pt) const {
-    return x <= pt.x || y <= pt.y || z <= pt.z;
+    return x >= pt.x && y >= pt.y && z >= pt.z;
 }
 template <typename T>
 bool Point3D<T>::has_supremum(const Point3D<T>& pt) const {
-    return x > pt.x || y > pt.y || z > pt.z;
+    return x < pt.x && y < pt.y && z < pt.z;
 }
 template <typename T>
 bool Point3D<T>::has_upper_bound(const Point3D<T>& pt) const {
-    return x >= pt.x || y >= pt.y || z >= pt.z;
+    return x <= pt.x && y <= pt.y && z <= pt.z;
 }
 
 

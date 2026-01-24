@@ -139,19 +139,19 @@ Point2D<T> Point2D<T>::max_val(const T& val) const {
 
 template <typename T>
 bool Point2D<T>::has_infimum(const Point2D<T>& pt) const {
-    return x < pt.x || y < pt.y;
+    return x > pt.x && y > pt.y;
 }
 template <typename T>
 bool Point2D<T>::has_lower_bound(const Point2D<T>& pt) const {
-    return x <= pt.x || y <= pt.y;
+    return x >= pt.x && y >= pt.y;
 }
 template <typename T>
 bool Point2D<T>::has_supremum(const Point2D<T>& pt) const {
-    return x > pt.x || y > pt.y;
+    return x < pt.x && y < pt.y;
 }
 template <typename T>
 bool Point2D<T>::has_upper_bound(const Point2D<T>& pt) const {
-    return x >= pt.x || y >= pt.y;
+    return x <= pt.x && y <= pt.y;
 }
 
 
