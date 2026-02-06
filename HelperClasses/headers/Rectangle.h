@@ -42,7 +42,7 @@ class Rectangle {
         Rectangle<T> merge(const Rectangle<T>&) const;
         
         Rectangle<T> intersection(const Rectangle<T>&) const;
-        bool intersects(const Rectangle<T>&, const bool&) const;
+        bool intersects(const Rectangle<T>&, const bool& = false) const;
 
         Rectangle<T> expand(const T&, const T&) const;
         Rectangle<T> expand(const std::pair<T, T>&) const;

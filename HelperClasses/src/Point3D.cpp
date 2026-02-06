@@ -419,3 +419,36 @@ Point3D<T>::operator Point3D<T2>() const {
     return Point3D<T2>((T2)x, (T2)y);
 }
 #pragma endregion
+
+
+#pragma region Allowed Templates
+template class Point3D<char>;
+template class Point3D<signed char>;
+template class Point3D<unsigned char>;
+template class Point3D<wchar_t>;
+
+template class Point3D<short>;
+template class Point3D<int>;
+template class Point3D<long>;
+template class Point3D<long long>;
+
+template class Point3D<unsigned short>;
+template class Point3D<unsigned int>;
+template class Point3D<unsigned long>;
+template class Point3D<unsigned long long>;
+
+template class Point3D<float>;
+template class Point3D<double>;
+template class Point3D<long double>;
+
+#if defined(__cpp_char8_t)
+template class Point3D<char8_t>;
+#endif
+#if defined(__cpp_char16_t)
+template class Point3D<char16_t>;
+#endif
+#if defined(__cpp_char32_t)
+template class Point3D<char32_t>;
+#endif
+
+#pragma endregion

@@ -182,17 +182,11 @@ Rectangle<T> Rectangle<T>::intersection(const Rectangle<T>& rect) const {
 template <typename T>
 bool Rectangle<T>::intersects(const Rectangle<T>& rect, const bool& include_edges) const {
     std::pair<T, T> end = get_end(), rect_end = rect.get_end();
-
+    // Rect<(45, 64), (22, 22)> Rect<(42, 646), (18, 20)>
     if (include_edges) {
-        return (
-            x <= rect_end.first && rect.x <= end.first &&
-            rect_end.second <= y && end.second <= rect_end.second
-        );
+        return (x <= rect_end.first && rect.x <= end.first && rect.y <= end.second && y <= rect_end.second);
     }
-    return (
-        x < rect_end.first && rect.x < end.first &&
-        rect_end.second < y && end.second < rect_end.second
-    );
+    return (x < rect_end.first && rect.x < end.first && rect.y < end.second && y < rect_end.second);
 }
 #pragma endregion
 

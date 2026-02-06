@@ -4,7 +4,6 @@
 #define __POINT_3D__HEADER__
 
 
-
 #pragma region Class Definition
 template <typename T = int>
 class Point3D{
