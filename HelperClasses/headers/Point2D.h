@@ -4,12 +4,12 @@
 #define __POINT_2D__HEADER__
 
 
+
+#pragma region Class Definition
 template <typename T = int>
 class Point2D{
     public:
         T x, y;
-
-        //const static Point2D<T> ZERO = Point<T>(0, 0);
 
         Point2D();
         Point2D(const T&);
@@ -33,15 +33,15 @@ class Point2D{
         T cross(const Point2D<T>&) const;
         T dot(const Point2D<T>&) const;
 
+        Point2D<T> normalize() const;
+        Point2D<T> interpolate(const Point2D<T>& other, const double& t) const;
+
         T manhattan_distance() const;
         T distance_squared() const;
         double distance() const;
 
-        Point2D<T> normalize() const;
-        Point2D<T> interpolate(const Point2D<T>& other, const double& t) const;
-
-        double angle() const;
         double angle_to(const Point2D<T>&) const;
+        double angle() const;
         Point2D<T> apply_rotation(const double&);
         Point2D<T> rotate(const double&);
 
@@ -57,10 +57,10 @@ class Point2D{
         Point2D<T> max(const Point2D<T>&) const;
         Point2D<T> max_val(const T&) const;
 
-        bool has_infimum(const Point2D<T>&) const;
-        bool has_lower_bound(const Point2D<T>&) const;
-        bool has_supremum(const Point2D<T>&) const;
-        bool has_upper_bound(const Point2D<T>&) const;
+        bool componentwise_greater(const Point2D<T>&) const;
+        bool componentwise_greater_equal(const Point2D<T>&) const;
+        bool componentwise_less(const Point2D<T>&) const;
+        bool componentwise_less_equal(const Point2D<T>&) const;
 
         template <typename T2>
         Point2D<T>& operator = (const T2&);
@@ -119,9 +119,10 @@ class Point2D{
         template<typename T2>
         friend std::istream& operator>>(std::istream&, const Point2D<T2>&);
 };
+#pragma endregion
 
 
-
+#pragma region Stream Methods
 template <typename T = int>
 std::ostream& operator<<(std::ostream& os, const Point2D<T>& pt) {
     os << pt.to_string();
@@ -132,5 +133,24 @@ std::istream& operator>>(std::istream& is, Point2D<T>& pt) {
     is >> pt.x >> pt.y;
     return is;
 }
+#pragma endregion
+
+
+#pragma region Hashing
+namespace std {
+    template <typename T>
+    struct hash<Point2D<T>> {
+        std::size_t operator()(const Point2D<T>& pt) const noexcept {
+            // DJB2 Algorithm
+            std::size_t hash = 5381;
+            hash ^= std::hash<T>{}(pt.x) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+            hash ^= std::hash<T>{}(pt.y) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+
+            return hash;
+        }
+    };
+}
+#pragma endregion
+
 
 #endif

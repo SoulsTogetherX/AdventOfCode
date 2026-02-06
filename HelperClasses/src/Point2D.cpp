@@ -1,8 +1,9 @@
-#include "Point2D.h"
 #include <string>
 #include <cmath>
+#include "Point2D.h"
 
 
+#pragma region Constructors 
 template <typename T>
 Point2D<T>::Point2D() : x(), y() {};
 template <typename T>
@@ -19,12 +20,18 @@ Point2D<T>::Point2D(const std::initializer_list<T>& it) {
 template <typename T>
 template <typename T2>
 Point2D<T>::Point2D(const Point2D<T2>& pt) : x((T)pt.x), y((T)pt.y) {}
+#pragma endregion
 
+
+#pragma region to_string
 template <typename T>
 std::string Point2D<T>::to_string() const {
     return (std::string)*this;
 }
+#pragma endregion
 
+
+#pragma region Assignment Methods
 template <typename T>
 void Point2D<T>::assign_coordinates(const T& x_coord, const T& y_coord) {
     x = x_coord;
@@ -46,7 +53,10 @@ void Point2D<T>::assign_coordinates(const Point2D<T2>& pt) {
     x = (T)pt.x;
     y = (T)pt.y;
 }
+#pragma endregion
 
+
+#pragma region Misc Helper Methods
 template <typename T>
 std::pair<T, T> Point2D<T>::unpack() const {
     return std::pair<T, T>(x, y);
@@ -65,6 +75,18 @@ T Point2D<T>::dot(const Point2D<T>& pt) const {
     return x * pt.x + y * pt.y;
 }
 
+template<typename T>
+Point2D<T> Point2D<T>::normalize() const {
+    return *this / distance();
+}
+template<typename T>
+Point2D<T> Point2D<T>::interpolate(const Point2D<T>& pt, const double& t) const {
+    return *this + ((pt - *this) * t);
+}
+#pragma endregion
+
+
+#pragma region Distance Methods
 template <typename T>
 T Point2D<T>::manhattan_distance() const {
     return (x >= 0 ? x : -x) + (y >= 0 ? y : -y);
@@ -77,23 +99,18 @@ template <typename T>
 double Point2D<T>::distance() const {
     return sqrt(x*x + y*y);
 }
+#pragma endregion
 
-template<typename T>
-Point2D<T> Point2D<T>::normalize() const {
-    return *this / distance();
-}
-template<typename T>
-Point2D<T> Point2D<T>::interpolate(const Point2D<T>& pt, const double& t) const {
-    return *this + ((pt - *this) * t);
+
+#pragma region Rotation Methods
+template <typename T>
+double Point2D<T>::angle_to(const Point2D<T>& pt) const {
+    return acos(dot(pt) / (distance() * pt.distance()));
 }
 
 template <typename T>
 double Point2D<T>::angle() const {
     return atan2(y, x);
-}
-template <typename T>
-double Point2D<T>::angle_to(const Point2D<T>& pt) const {
-    return acos(dot(pt) / (distance() * pt.distance()));
 }
 template <typename T>
 Point2D<T> Point2D<T>::apply_rotation(const double& angle) {
@@ -106,13 +123,12 @@ Point2D<T> Point2D<T>::apply_rotation(const double& angle) {
 }
 template <typename T>
 Point2D<T> Point2D<T>::rotate(const double& angle) {
-    return Point2D(
-        x * cos(angle) - y * sin(angle),
-        x * sin(angle) + y * cos(angle)
-    );
+    return Point2D(*this).apply_rotation(angle);
 }
+#pragma endregion
 
 
+#pragma region Swizzle Methods
 template <typename T>
 Point2D<T> Point2D<T>::clockwise() const {
 return Point2D<T>(-y, x);
@@ -129,8 +145,10 @@ template <typename T>
 Point2D<T> Point2D<T>::swizzle() const {
     return Point2D<T>(x, y);
 }
+#pragma endregion
 
 
+#pragma region Coordinate Limit Methods
 template <typename T>
 Point2D<T> Point2D<T>::clamp(const Point2D<T>& min_pt, const Point2D<T>& max_pt) const {
     return Point2D<T>(
@@ -173,24 +191,30 @@ Point2D<T> Point2D<T>::max_val(const T& val) const {
         y < val ? val : y
     );
 }
+#pragma endregion
 
+
+#pragma region Componentwise Comparisons
 template <typename T>
-bool Point2D<T>::has_infimum(const Point2D<T>& pt) const {
+bool Point2D<T>::componentwise_greater(const Point2D<T>& pt) const {
     return x > pt.x && y > pt.y;
 }
 template <typename T>
-bool Point2D<T>::has_lower_bound(const Point2D<T>& pt) const {
+bool Point2D<T>::componentwise_greater_equal(const Point2D<T>& pt) const {
     return x >= pt.x && y >= pt.y;
 }
 template <typename T>
-bool Point2D<T>::has_supremum(const Point2D<T>& pt) const {
+bool Point2D<T>::componentwise_less(const Point2D<T>& pt) const {
     return x < pt.x && y < pt.y;
 }
 template <typename T>
-bool Point2D<T>::has_upper_bound(const Point2D<T>& pt) const {
+bool Point2D<T>::componentwise_less_equal(const Point2D<T>& pt) const {
     return x <= pt.x && y <= pt.y;
 }
+#pragma endregion
 
+
+#pragma region Assignment Operator
 template <typename T>
 template <typename T2>
 Point2D<T>& Point2D<T>::operator = (const T2& val) {
@@ -210,7 +234,10 @@ Point2D<T>& Point2D<T>::operator = (const std::initializer_list<T>& it) {
     y = it.size() >= 2 ? *(it.begin() + 1) : 0;
     return *this;
 }
+#pragma endregion
 
+
+#pragma region Algebra Operators
 template <typename T>
 Point2D<T> Point2D<T>::operator + (const T& val) const {
     return Point2D<T>(x + val, y + val);
@@ -323,7 +350,10 @@ template <typename T>
 bool Point2D<T>::operator ! () const {
     return x != 0 && y != 0;
 }
+#pragma endregion
 
+
+#pragma region Comparisons Operators
 template <typename T>
 bool Point2D<T>::operator == (const Point2D<T>& pt) const {
     return x == pt.x && y == pt.y;
@@ -332,7 +362,6 @@ template <typename T>
 bool Point2D<T>::operator != (const Point2D<T>& pt) const {
     return x != pt.x || y != pt.y;
 }
-
 
 template <typename T>
 bool Point2D<T>::operator < (const Point2D<T>& pt) const {
@@ -351,7 +380,10 @@ template <typename T>
 bool Point2D<T>::operator >= (const Point2D<T>& pt) const {
     return x >= pt.x && (x != pt.x || y >= pt.y);
 }
+#pragma endregion
 
+
+#pragma region Type Casting Methods
 template <typename T>
 Point2D<T>::operator bool() const {
     return x != 0 || y != 0;
@@ -369,46 +401,4 @@ template <typename T2>
 Point2D<T>::operator Point2D<T2>() const {
     return Point2D<T2>((T2)x, (T2)y);
 }
-
-
-namespace std {
-    template <typename T>
-    struct hash<Point2D<T>> {
-        std::size_t operator()(const Point2D<T>& pt) const noexcept {
-            std::size_t h1 = std::hash<T>{}(pt.x);
-            std::size_t h2 = std::hash<T>{}(pt.y);
-
-            return h1 ^ (h2 + 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
-        }
-    };
-}
-
-
-template class Point2D<char>;
-template class Point2D<signed char>;
-template class Point2D<unsigned char>;
-template class Point2D<wchar_t>;
-
-template class Point2D<short>;
-template class Point2D<int>;
-template class Point2D<long>;
-template class Point2D<long long>;
-
-template class Point2D<unsigned short>;
-template class Point2D<unsigned int>;
-template class Point2D<unsigned long>;
-template class Point2D<unsigned long long>;
-
-template class Point2D<float>;
-template class Point2D<double>;
-template class Point2D<long double>;
-
-#if defined(__cpp_char8_t)
-template class Point2D<char8_t>;
-#endif
-#if defined(__cpp_char16_t)
-template class Point2D<char16_t>;
-#endif
-#if defined(__cpp_char32_t)
-template class Point2D<char32_t>;
-#endif
+#pragma endregion
